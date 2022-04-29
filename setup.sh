@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
 
-if [ -d _build ]
+if [ ! -d _build ]
 then
-rm build -rf
+mkdir _build
 fi
 
-mkdir _build
 cd _build
 cmake ..
 cd ..

@@ -1,4 +1,3 @@
 #!/usr/bin/env bash
 
-cmake --build _build
-./_build/maze
+cmake --build _build && ./_build/maze

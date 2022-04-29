@@ -5,7 +5,7 @@
 #include <stdlib.h> /* srand, rand */
 #include <time.h>   /* time */
 #include <string>
-#include "setofpieces.h"
+#include <unordered_set>
 
 #define NB_PIECE 17
 
@@ -66,4 +66,5 @@ public:
         return (int)p.getType();
     }
 };
+
 #endif
