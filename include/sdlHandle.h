@@ -27,6 +27,6 @@ public:
     void clear();
     void updateScreen();
     int waitForClose(int);
-    void drawCell(int x, int y, int color);
+    void drawCellGreyScale(int x, int y, float color);
 };
 #endif

@@ -71,23 +71,9 @@ void Piece::draw(sdlHandle &window, int x, int y)
     {
         for (int j = 0; j < 3; ++j)
         {
-            int color = charToColor(pieces[type][3 * i + j]);
-            window.drawCell(x * 3 + i, y * 3 + j, color);
+            int color = (int)pieces[type][3 * i + j] - 48;
+            window.drawCellGreyScale(x * 3 + i, y * 3 + j, color);
         }
-    }
-}
-
-int Piece::charToColor(char c)
-{
-    switch (c)
-    {
-    case '0':
-        return 0;
-    case '1':
-        return 1;
-
-    default:
-        return 0;
     }
 }
 
@@ -100,3 +86,12 @@ bool Piece::operator==(Piece const &toCompare) const
 {
     return this->type == toCompare.type;
 };
+
+int Piece::constraintOnDIr(direction d) const
+{
+    return (int)(pieces[type][d]) - 48;
+}
+char *Piece::getPieceDef() const
+{
+    return pieces[type];
+}

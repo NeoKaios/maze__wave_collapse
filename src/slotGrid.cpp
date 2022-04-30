@@ -1,6 +1,6 @@
 #include "slotGrid.h"
 
-slotGrid::slotGrid(int h, int v)
+SlotGrid::SlotGrid(int h, int v)
 {
     Hgrid = h;
     Vgrid = v;
@@ -11,29 +11,30 @@ slotGrid::slotGrid(int h, int v)
     }
 }
 
-slotGrid::~slotGrid()
+SlotGrid::~SlotGrid()
 {
 }
 
-void slotGrid::draw(sdlHandle &win)
+void SlotGrid::draw(sdlHandle &win)
 {
     for (int i = 0; i < Vgrid; ++i)
     {
         for (int j = 0; j < Hgrid; ++j)
         {
-            drawSlot(win, i, j);
+            possibilities[i][j].draw(win, i, j);
         }
     }
 }
 
-void slotGrid::drawSlot(sdlHandle &win, int x, int y)
+void SlotGrid::solve()
 {
-    if (possibilities[x][y].isCollapsed())
+    SetOfPieces &sop = possibilities[0][0];
+    vector<SetOfPieces> queue;
+    for (int i = 0; i < Vgrid; ++i)
     {
-        possibilities[x][y].getFirst().draw(win, x, y);
-    }
-    else
-    {
-        possibilities[x][y].drawPossible(win, x, y);
+        for (int j = 0; j < Hgrid; ++j)
+        {
+            possibilities[i][j].collapseSlot();
+        }
     }
 }

@@ -7,19 +7,17 @@
 
 using namespace std;
 
-class slotGrid
+class SlotGrid
 {
     int Hgrid, Vgrid;
 
     vector<vector<SetOfPieces>> possibilities;
 
 public:
-    slotGrid(int h, int v);
+    SlotGrid(int h, int v);
 
-    ~slotGrid();
+    ~SlotGrid();
     void draw(sdlHandle &);
-
-private:
-    void drawSlot(sdlHandle &, int, int);
+    void solve();
 };
 #endif

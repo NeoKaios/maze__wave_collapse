@@ -5,9 +5,16 @@
 #include <stdlib.h> /* srand, rand */
 #include <time.h>   /* time */
 #include <string>
-#include <unordered_set>
 
 #define NB_PIECE 17
+
+enum direction
+{
+    Top = 1,
+    Right = 5,
+    Left = 3,
+    Bot = 7
+};
 
 enum pieceIdx
 {
@@ -52,9 +59,10 @@ public:
     }
     std::string ToString() const;
     bool operator==(Piece const &) const;
+    int constraintOnDIr(direction) const;
+    char *getPieceDef() const;
 
-private:
-    int charToColor(char c);
+    static int def(char c);
 };
 
 // class for hash function
