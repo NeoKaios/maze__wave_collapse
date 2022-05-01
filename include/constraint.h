@@ -18,11 +18,6 @@ enum constraintType
 class Constraint
 {
 private:
-    // constraintType left;
-    // constraintType top;
-    // constraintType right;
-    // constraintType bot;
-
     // in order top, left, right, bot
     constraintType arr[4] = {Everything, Everything, Everything, Everything};
 

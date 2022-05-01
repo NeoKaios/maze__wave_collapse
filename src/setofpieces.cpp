@@ -2,11 +2,15 @@
 
 using namespace std;
 
+int SetOfPieces::minUnusedId = 0;
+
 SetOfPieces::SetOfPieces()
 {
     collapsed = false;
     addAll();
     constraint = Constraint();
+    id = minUnusedId;
+    minUnusedId++;
 };
 
 void SetOfPieces::add(Piece &toAdd)
@@ -41,12 +45,19 @@ void SetOfPieces::addAll()
 
 void SetOfPieces::print()
 {
-    unordered_set<Piece>::iterator itr;
-    for (itr = pieceSet.begin(); itr != pieceSet.end(); itr++)
+    if (pieceSet.size() == NB_PIECE)
     {
-        cout << (*itr).ToString() << " ";
+        cout << "Full set\n";
     }
-    cout << endl;
+    else
+    {
+        unordered_set<Piece>::iterator itr;
+        for (itr = pieceSet.begin(); itr != pieceSet.end(); itr++)
+        {
+            cout << (*itr).ToString() << " ";
+        }
+        cout << endl;
+    }
 };
 
 void SetOfPieces::printCons()
@@ -127,11 +138,12 @@ int SetOfPieces::applyConstraints(direction d, constraintType cons)
     case -1: // Incompatibility : impossible to finish
         cout << "Incompatibility of constraints\n";
         return -1;
-    case 0: // This set is already more constrained
-        cout << "Already more constrained\n";
+    case 0: // This set is already more constrained, or has the same constrained level
+        // cout << "Constrained enough, nothing to do\n";
         return 0;
     case 1: // This set is less constrained, need to apply new constraint
     {
+        // cout << "Less constrained\n";
         // remove all that do not fit the d//cons constraint
         bool hasChanged = false;
         vector<Piece const *> toRemove;
@@ -150,7 +162,6 @@ int SetOfPieces::applyConstraints(direction d, constraintType cons)
         }
         if (isCollapsed())
         {
-            cout << "Constraint have collapsed a set\n";
             collapsedPiece = getFirst();
             return constraint.reduceConstraint(pieceSet);
         }
@@ -163,4 +174,13 @@ int SetOfPieces::applyConstraints(direction d, constraintType cons)
     default:
         return -1;
     }
+}
+
+bool SetOfPieces::operator==(SetOfPieces const &sop) const
+{
+    return id == sop.id;
+}
+constraintType SetOfPieces::getConsOnDir(direction d) const
+{
+    return constraint.getConsOfDir(d);
 }

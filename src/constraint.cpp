@@ -10,10 +10,6 @@ const string consToString[] = {
 
 Constraint::Constraint()
 {
-    // left = Everything;
-    // right = Everything;
-    // top = Everything;
-    // bot = Everything;
 }
 void Constraint::print() const
 {

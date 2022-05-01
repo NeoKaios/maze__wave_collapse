@@ -2,6 +2,7 @@
 #define SDLHANDLE_H
 
 #include "SDL.h"
+#include <unistd.h>
 
 class sdlHandle
 {
@@ -26,7 +27,8 @@ public:
 
     void clear();
     void updateScreen();
-    int waitForClose(int);
+    int waitAndClose(int);
+    int checkForClose();
     void drawCellGreyScale(int x, int y, float color);
 };
 #endif

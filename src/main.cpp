@@ -1,6 +1,5 @@
 #include "slotGrid.h"
 #include <iostream>
-#include <unistd.h>
 
 void temp()
 {
@@ -25,17 +24,29 @@ void temp()
 int main()
 {
     srand(time(NULL));
-    int gridSize = 10;
+    int gridSize = 15;
     sdlHandle *win = new sdlHandle(3 * gridSize, 3 * gridSize, 150 / gridSize);
-    SlotGrid *grids = new SlotGrid(gridSize, gridSize);
     win->init();
     win->clear();
-    int idx = 0;
+    SlotGrid *grids = new SlotGrid(gridSize, gridSize);
     grids->solve();
     grids->draw(*win);
     win->updateScreen();
-    win->clear();
+
+    while (1 - grids->solveDraw(*win, .05))
+    {
+        delete (grids);
+        grids = new SlotGrid(gridSize, gridSize);
+        sleep(5);
+    }
+    cout << "here\n";
+    delete (grids);
+    // win->waitAndClose(50);
+    delete (win);
+    return 0;
+
     /*
+    int idx = 0;
     for (int i = 0; i < gridSize; ++i)
     {
         for (int j = 0; j < gridSize; ++j)
@@ -52,7 +63,6 @@ int main()
     }
     win->updateScreen();
     */
-    return win->waitForClose(5);
     // sleep(1);
     // return 0;
 }

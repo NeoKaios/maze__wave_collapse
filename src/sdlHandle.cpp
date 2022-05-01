@@ -81,31 +81,45 @@ void sdlHandle::updateScreen()
     SDL_RenderPresent(gRenderer);
 }
 
-int sdlHandle::waitForClose(int timeout)
+/* Wait for close signal and close window, return 0 if closed by user, 1 if timeout exceeded */
+int sdlHandle::waitAndClose(int timeout)
+{
+    double endTime = time(NULL) + timeout;
+    float sleepTime = .5;
+    // While application is running
+    while (time(NULL) < endTime)
+    {
+        if (checkForClose())
+        {
+            return 0;
+        }
+        sleep(sleepTime);
+    }
+    close();
+    return 1;
+}
+
+/* Check events for close signal, close window and return 1 if necessary, 0 otherwise */
+int sdlHandle::checkForClose()
 {
     // Main loop flag
     bool quit = false;
-
     // Event handler
     SDL_Event e;
-    double t = time(NULL);
-    // While application is running
-    while (!quit && time(NULL) < (t + timeout))
+    // Handle events on queue
+    while (SDL_PollEvent(&e) != 0)
     {
-        // Handle events on queue
-        while (SDL_PollEvent(&e) != 0)
+        // User requests quit
+        if (e.type == SDL_QUIT)
         {
-            // User requests quit
-            if (e.type == SDL_QUIT)
-            {
-                quit = true;
-            }
+            quit = true;
         }
     }
-
-    // Free resources and close SDL
-    close();
-
+    if (quit)
+    {
+        close();
+        return 1;
+    }
     return 0;
 }
 
